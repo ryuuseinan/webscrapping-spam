@@ -1,4 +1,5 @@
 import random
+import os
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -56,7 +57,11 @@ def generate_six_digit_code():
 # Función principal para realizar las operaciones
 def execute_workflow(filtered_words, website):
     options = Options()
-    options.binary_location = '/usr/bin/google-chrome-stable'
+    
+    if os.name == 'nt':  # Windows
+        options.binary_location = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    else:  # Linux
+        options.binary_location = '/usr/bin/google-chrome-stable'
 
     # Usar Service en lugar de executable_path
     service = Service(ChromeDriverManager().install())
@@ -140,7 +145,8 @@ def execute_workflow(filtered_words, website):
             EC.element_to_be_clickable((By.XPATH, '//*[@id="btnLogin"]'))
         )
         login.click()  # index7
-        sleep(3)
+        sleep(5)
+        
     except Exception as e:
         print(f"Error: {e}")
 
